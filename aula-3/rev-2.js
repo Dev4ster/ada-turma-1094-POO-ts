@@ -45,6 +45,8 @@ class Produto {
   constructor(nome, preco) {
     this.nome = nome; // atribuindo
     this.preco = preco;
+    Produto.totalProdutos += 1;
+    Produto.somaPrecos += preco;
   }
 
   #verificarPeso(peso) {
@@ -59,7 +61,7 @@ class Produto {
 
   setPeso(peso) {
     this.#verificarPeso(peso);
-    this.#peso;
+    this.#peso = peso;
   }
 
   taEmPromocao() {
@@ -67,7 +69,7 @@ class Produto {
   }
 
   static calcularMediaDePrecos() {
-    if ((Produto.totalProdutos = 0)) {
+    if (Produto.totalProdutos === 0) {
       return 0;
     }
 
@@ -77,23 +79,54 @@ class Produto {
 
 Produto.totalProdutos = 0;
 Produto.somaPrecos = 0;
-Produto.teste;
 
-try {
-  const produto1 = new Produto("Arroz", 12);
-
-  produto1.setPeso("lala");
-
-  if (produto1.taEmPromocao()) {
-    console.log("ta em promocao");
-  }
-
-  console.log("produto1", produto1);
-} catch (error) {
-  if (error instanceof ProdutoPesoException) {
-    console.log(`${error.message} - o peso foi: ${error.peso}`);
-  }
-
-  if (error instanceof ProdutoPromocaoException) {
+class ProdutoFilha extends Produto {
+  #peso;
+  teste() {
+    this.#peso = "qualquer";
   }
 }
+
+const filha = new ProdutoFilha();
+filha.setPeso("qualquercoisa");
+filha.getPeso();
+
+// try {
+//   const produto1 = new Produto("Arroz", 12);
+//   produto1.setPeso("lala");
+
+//   if (produto1.taEmPromocao()) {
+//     console.log("ta em promocao");
+//   }
+
+//   console.log("produto1", produto1);
+// } catch (error) {
+//   if (error instanceof ProdutoPesoException) {
+//     console.log(`${error.message} - o peso foi: ${error.peso}`);
+//   }
+
+//   if (error instanceof ProdutoPromocaoException) {
+//   }
+// }
+
+class CarrinhoDeCompras {
+  produtos = [];
+
+  adicionarProduto(produto) {
+    this.produtos.push(produto);
+  }
+
+  exibirMediaDePrecos() {
+    console.log(`A média é: ${Produto.calcularMediaDePrecos()}`);
+  }
+}
+
+const produto1 = new Produto("Arroz", 12);
+
+const produto2 = new Produto("Feijão", 17);
+
+const carrinho = new CarrinhoDeCompras();
+carrinho.adicionarProduto(produto1);
+carrinho.adicionarProduto(produto2);
+
+carrinho.exibirMediaDePrecos();

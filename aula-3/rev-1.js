@@ -18,6 +18,8 @@ const murilo = {
   andar() {},
 };
 
+murilo.qualquercoisa = 0;
+
 const emily = new Object({
   nome: "Emily",
   falar() {
